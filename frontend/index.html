@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Employee Evaluation · Expert System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <meta name="theme-color" content="#0b1020" />
+
+    <style>
+      :root{
+        --bg:#071027;
+        --card:#0b1220;
+        --muted:#9aa7bd;
+        --text:#e6eef8;
+        --accent:#06b6d4;
+        --accent-2:#6366f1;
+        --glass: rgba(255,255,255,0.03);
+        --radius:12px;
+        --gap:14px;
+        --shadow: 0 8px 40px rgba(2,6,23,0.6);
+      }
+      *{box-sizing:border-box}
+      html,body,#root{height:100%}
+      body{
+        margin:0;
+        font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+        background: linear-gradient(180deg,#041227 0%, #071027 100%);
+        color:var(--text);
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        padding:28px;
+        display:flex;
+        justify-content:center;
+        align-items:flex-start;
+      }
+
+      .container{
+        width:100%;
+        max-width:1100px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        border-radius:16px;
+        padding:22px;
+        box-shadow:var(--shadow);
+        backdrop-filter: blur(6px);
+      }
+
+      .header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px;
+        margin-bottom:22px;
+      }
+      .brand{
+        display:flex;
+        gap:14px;
+        align-items:center;
+      }
+      .logo{
+        width:56px;
+        height:56px;
+        border-radius:12px;
+        background:linear-gradient(135deg,var(--accent),var(--accent-2));
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:700;
+        color:white;
+        font-size:20px;
+        box-shadow: 0 8px 24px rgba(6,182,212,0.12);
+      }
+      .title{font-size:18px; font-weight:700}
+      .tagline{font-size:13px; color:var(--muted)}
+
+      .layout{
+        display:grid;
+        grid-template-columns: 1fr 360px;
+        gap:var(--gap);
+      }
+
+      .panel{
+        background:var(--glass);
+        border-radius:var(--radius);
+        padding:16px;
+        min-height:120px;
+      }
+
+      /* Form */
+      .form-grid{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:10px;
+      }
+      .form-row{ display:flex; gap:10px; margin-top:10px; }
+      input[type="text"], input[type="number"], select{
+        width:100%;
+        padding:10px 12px;
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.04);
+        background: rgba(255,255,255,0.02);
+        color:var(--text);
+        font-size:14px;
+      }
+      .small { font-size:13px; color:var(--muted); margin-top:6px; }
+
+      /* Summary table */
+      .table-wrap{ overflow:auto; margin-top:8px; }
+      table{
+        width:100%;
+        border-collapse:collapse;
+        font-size:14px;
+      }
+      thead th{
+        text-align:left;
+        font-size:13px;
+        color:var(--muted);
+        padding:10px 8px;
+        font-weight:600;
+        letter-spacing:0.2px;
+      }
+      tbody td{
+        padding:10px 8px;
+        border-top:1px solid rgba(255,255,255,0.02);
+      }
+      tbody tr:nth-child(even){ background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent); }
+
+      /* Suggestion */
+      .suggestion-strong{ display:block; font-weight:700; margin-bottom:8px; font-size:15px; }
+      .suggestion-note{ color:var(--muted); font-size:14px; }
+
+      /* History */
+      .history-list{ display:flex; flex-direction:column; gap:10px; margin-top:6px; max-height:420px; overflow:auto; }
+      .history-item{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:10px;
+        border-radius:10px;
+        background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+      }
+      .badge{
+        padding:6px 10px;
+        border-radius:999px;
+        font-weight:700;
+        font-size:13px;
+      }
+      .badge-excellent{ background: linear-gradient(90deg,#10b981,#06b6d4); color:white; }
+      .badge-good{ background: linear-gradient(90deg,#60a5fa,#7c3aed); color:white;}
+      .badge-average{ background:#f59e0b; color:#081122;}
+      .badge-poor{ background:#ef4444; color:white; }
+
+      /* Buttons */
+      .btn{
+        padding:9px 14px;
+        border-radius:10px;
+        border: none;
+        cursor:pointer;
+        font-weight:600;
+        font-size:14px;
+      }
+      .btn-ghost{
+        background:transparent;
+        border:1px solid rgba(255,255,255,0.06);
+        color:var(--muted);
+      }
+      .btn-primary{
+        background: linear-gradient(90deg,var(--accent),var(--accent-2));
+        color:white;
+        box-shadow: 0 10px 28px rgba(99,102,241,0.12);
+      }
+
+      /* Responsive */
+      @media (max-width: 960px){
+        .layout{ grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container" role="application">
+      <header class="header" role="banner">
+        <div class="brand">
+          <div class="logo" aria-hidden>EE</div>
+          <div>
+            <div class="title">Employee Evaluation</div>
+            <div class="tagline">Expert System · Feedback & Insights</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout" role="main">
+        <!-- Left: form and summary -->
+        <section>
+          <div class="panel" aria-labelledby="evaluate-heading">
+            <h2 id="evaluate-heading" style="margin:0 0 8px 0;">Evaluate Employee</h2>
+            <p class="small">Enter the employee details and rates (1–10). Results show immediately.</p>
+
+            <div class="form-grid" style="margin-top:12px;">
+              <div>
+                <label class="small" for="name">Name</label>
+                <input id="name" type="text" placeholder="Full name" />
+              </div>
+              <div>
+                <label class="small" for="department">Department</label>
+                <input id="department" type="text" placeholder="Department / Team" />
+              </div>
+
+              <div>
+                <label class="small" for="punctuality">Punctuality (1–10)</label>
+                <input id="punctuality" type="number" min="1" max="10" placeholder="7" />
+              </div>
+              <div>
+                <label class="small" for="efficiency">Efficiency (1–10)</label>
+                <input id="efficiency" type="number" min="1" max="10" placeholder="8" />
+              </div>
+
+              <div style="grid-column: 1 / -1;">
+                <label class="small" for="teamwork">Teamwork (1–10)</label>
+                <input id="teamwork" type="number" min="1" max="10" placeholder="9" />
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; margin-top:14px;">
+              <button id="evaluateBtn" class="btn btn-primary">Evaluate</button>
+              <button id="saveBtn" class="btn btn-ghost">Save to History</button>
+              <div style="flex:1"></div>
+              <div id="liveAverage" class="small" aria-live="polite">Average: —</div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:14px;">
+            <h3 style="margin:0 0 8px 0;">Employee Evaluation Summary</h3>
+            <div class="table-wrap">
+              <table aria-describedby="summary-note" role="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Average</th>
+                    <th>Performance</th>
+                  </tr>
+                </thead>
+                <tbody id="summaryBody">
+                  <tr>
+                    <td colspan="4" style="color:var(--muted); padding:18px 8px">No evaluations yet — evaluate an employee to see results.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="summary-note" class="small" style="margin-top:10px; color:var(--muted)">Use "Save to History" to store entries locally in this session.</div>
+          </div>
+        </section>
+
+        <!-- Right: suggestions + history -->
+        <aside>
+          <div class="panel" aria-labelledby="suggestion-heading">
+            <h3 id="suggestion-heading" style="margin:0 0 8px 0">Expert Suggestion</h3>
+            <div id="suggestion" style="min-height:120px;">
+              <div class="suggestion-strong">🧠 Feedback and evaluation insights will appear here after you evaluate an employee.</div>
+              <div class="suggestion-note">The system computes a simple average of the three metrics and maps it to a performance tier with concise improvement suggestions.</div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:14px;">
+            <h4 style="margin:0 0 8px 0">Evaluation History</h4>
+            <div id="historyList" class="history-list" aria-live="polite">
+              <div style="color:var(--muted)">No history yet</div>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module">
+      // UX script without "Clear" or "How it works" actions
+      const evaluateBtn = document.getElementById('evaluateBtn');
+      const saveBtn = document.getElementById('saveBtn');
+      const suggestionEl = document.getElementById('suggestion');
+      const historyList = document.getElementById('historyList');
+      const summaryBody = document.getElementById('summaryBody');
+      const liveAverage = document.getElementById('liveAverage');
+
+      function calcPerformance(avg){
+        if (avg >= 8.5) return ['Excellent','Keep up the outstanding work! Consider mentoring others.','badge-excellent'];
+        if (avg >= 7) return ['Good','Great job! Focus on refining teamwork and punctuality.','badge-good'];
+        if (avg >= 5) return ['Average','Needs improvement. Set measurable personal goals.','badge-average'];
+        return ['Poor','Immediate improvement required. Seek feedback and training.','badge-poor'];
+      }
+
+      function readInputs(){
+        const name = document.getElementById('name').value.trim() || '—';
+        const dept = document.getElementById('department').value.trim() || '—';
+        const p = Number(document.getElementById('punctuality').value) || 0;
+        const e = Number(document.getElementById('efficiency').value) || 0;
+        const t = Number(document.getElementById('teamwork').value) || 0;
+        const avgRaw = (p + e + t) / 3;
+        const avg = p||e||t ? Math.round(avgRaw * 10) / 10 : 0;
+        return { name, dept, p, e, t, avg };
+      }
+
+      evaluateBtn?.addEventListener('click', () => {
+        const {name,dept,avg} = readInputs();
+        if (!avg){ suggestionEl.innerHTML = '<div class="suggestion-strong">Please enter at least one numeric rating.</div>'; liveAverage.textContent = 'Average: —'; return; }
+        const [perf, advice, badge] = calcPerformance(avg);
+
+        suggestionEl.innerHTML = `
+          <div class="suggestion-strong">${perf} · Average ${avg}</div>
+          <div class="suggestion-note">${advice}</div>
+        `;
+        liveAverage.textContent = 'Average: ' + avg;
+
+        summaryBody.innerHTML = `
+          <tr>
+            <td>${escapeHtml(name)}</td>
+            <td>${escapeHtml(dept)}</td>
+            <td>${avg}</td>
+            <td><span class="badge ${badge}">${perf}</span></td>
+          </tr>
+        `;
+      });
+
+      saveBtn?.addEventListener('click', () => {
+        const {name,dept,avg} = readInputs();
+        if (!avg){ alert('Enter numeric ratings before saving.'); return; }
+        const [perf, , badge] = calcPerformance(avg);
+
+        if (historyList.children.length === 1 && historyList.children[0].textContent.includes('No history')) {
+          historyList.innerHTML = '';
+        }
+
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+          <div>
+            <div style="font-weight:700">${escapeHtml(name)}</div>
+            <div style="font-size:13px; color:var(--muted)">${escapeHtml(dept)}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:700">${avg}</div>
+            <div style="margin-top:6px"><span class="badge ${badge}">${perf}</span></div>
+          </div>
+        `;
+        historyList.prepend(item);
+      });
+
+      function escapeHtml(s){
+        return String(s).replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      }
+
+      // initial state
+      suggestionEl.innerHTML = '<div class="suggestion-strong">🧠 Feedback and evaluation insights will appear here after you evaluate an employee.</div><div class="suggestion-note">The system computes a simple average of the three metrics and maps it to a performance tier with concise improvement suggestions.</div>';
+      summaryBody.innerHTML = '<tr><td colspan="4" style="color:var(--muted); padding:18px 8px">No evaluations yet — evaluate an employee to see results.</td></tr>';
+      liveAverage.textContent = 'Average: —';
+    </script>
+  </body>
+</html>
