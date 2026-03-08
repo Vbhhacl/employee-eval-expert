@@ -81,3 +81,6 @@ The clean, dark-mode interface allows managers to easily input scores (1-10) for
 ### 2. Expert System Results
 Once submitted, the system instantly calculates the weighted average, assigns a performance badge (e.g., "Excellent"), and generates specific feedback suggestions.
 <img width="1920" height="1027" alt="Screenshot 2025-10-25 192315" src="https://github.com/user-attachments/assets/b171d440-6178-4021-90f1-bef8495c7f7a" />
+
+## Author
+Vaibhavi Halloli
